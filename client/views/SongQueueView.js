@@ -16,6 +16,7 @@ var SongQueueView = Backbone.View.extend({
         return new SongQueueEntryView({ model: song }).render();
       })
     );
+    return this.$el;
   }
 
 });
