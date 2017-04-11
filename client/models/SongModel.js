@@ -2,6 +2,9 @@
 var SongModel = Backbone.Model.extend({
 
 	// initialize
+  defaults: {
+    isPlaying: false
+  },
 
   play: function() {
     // Triggering an event here will also trigger the event on the collection
