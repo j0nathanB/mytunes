@@ -8,10 +8,7 @@ var LibraryEntryView = Backbone.View.extend({
   events: {
 
     'click': function() {
-      if(!this.model.attributes.isPlaying){
-        this.model.play();
-        this.model.attributes.isPlaying = true; // changing clicked song NOT the rest
-      }
+        this.model.enqueue();
     }
 
     // if no song has changed state

@@ -4,30 +4,35 @@ var SongQueue = Backbone.Collection.extend({
   model: SongModel,
 
   initialize: function() {
-  	this.on('add', function(song){
-  		if(this.at(1) === undefined) {
-  			this.playFirst();
-  		}
-  	});
+  	this.on('add', this.enqueue, this);
+    this.on('dequeue', this.dequeue, this);
+    this.on('ended', this.ended, this);
+  },
 
-  	this.on('ended', function(){
-  		if (this.at(1)) {
-  			this.shift();
-  			this.playFirst();
-  		}  		
-  	});
+  enqueue: function(song){
+    if(this.length === 1) {
+      this.playFirst();
+    }
+  },
 
-  	this.on('dequeue', function(){
-  		this.remove();
-  	});
+  dequeue: function(song){
+      if (this.at(0) === song){
+        this.ended()
+      }
+      this.remove(song);
+  },
 
+  ended: function(){
+    this.shift();
+    if (this.length >= 1) {      
+      this.playFirst();
+    } else {
+      this.trigger('stop');
+    }     
   },
 
   playFirst: function() {
-  	if(this.at(0)){
-  		this.at(0).play();
-  	}
+  	this.at(0).play();
   }
-
 
 });
